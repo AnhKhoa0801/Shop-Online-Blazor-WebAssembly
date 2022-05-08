@@ -1,4 +1,4 @@
-﻿@page "/ "
+﻿@page "/"
 @using ShopOnline.Models.Dtos
 @inherits ProductsBase
 
@@ -12,14 +12,21 @@ else
 
     var productCount = Products.Count();
 
-    if (productCount >0)
+    if (productCount > 0)
     {
-        const int itemsPerRow = 4;
         var productRowList = new List<ProductDto>();
 
-        for (int i = 0; i < productCount; i++)
+        var groupProductsByCategory = GetGroupProductsByCategory();
+        @foreach (var groupItem in groupProductsByCategory)
         {
-            productRowList = Products.Skip(i * itemsPerRow).Take(itemsPerRow).ToList();
+            <div class="row">
+                <h4>@GetCatagoryName(groupItem)</h4>
+                <div class = "row mt-3">
+                    <DisplayProducts Products="@groupItem.Take(4)"></DisplayProducts>
+                </div>
+                <hr class = "mb-3"/>
+            </div>
         }
+
     }
 }
